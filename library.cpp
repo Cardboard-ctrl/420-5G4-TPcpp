@@ -12,6 +12,7 @@ Library::Library() {}
 // Add book to library
 void Library::addBook(const Book& book) {
     books.push_back(make_unique<Book>(book));
+    sortBooksParTitleEtAuthor();
 }
 
 // Remove book from library
@@ -26,6 +27,16 @@ bool Library::removeBook(const string& isbn) {
         return true;
     }
     return false;
+}
+
+// Tri automatique a chaque ajout de livre dans la bibliothèque, par titre et auteur
+void Library::sortBooksParTitleEtAuthor() {
+    sort(books.begin(), books.end(),[](const unique_ptr<Book>& a, const unique_ptr<Book>& b) {
+        if (a->getTitle() == b->getTitle()) {
+            return a->getAuthor() < b->getAuthor();
+        }
+        return a->getTitle() < b->getTitle();
+    });
 }
 
 // Find book by ISBN

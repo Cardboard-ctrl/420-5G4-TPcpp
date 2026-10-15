@@ -14,6 +14,8 @@ private:
     vector<unique_ptr<Book>> books;
     vector<unique_ptr<User>> users;
 
+    void sortBooksParTitleEtAuthor();
+
 public:
     // Constructor and destructor
     Library();
