@@ -1,5 +1,6 @@
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 
 #include "library.h"
 
@@ -95,6 +96,24 @@ vector<Book*> Library::getAllBooks() {
 void Library::addUser(const User& user) {
     users.push_back(make_unique<User>(user));
 }
+
+string Library::genererIDUtilisateur() const {
+    int nextId = users.size() + 1;
+    stringstream ss;
+
+    ss << "USR";
+
+    // Ajoute 2 zeros si l'ID est 9 ou moins, 1 zero si l'ID est entre 10 et 99, sinon pas de zero
+    if (nextId < 10) {
+        ss << "00" << nextId;
+    } else if (nextId < 100) {
+        ss << "0" << nextId;
+    } else {
+        ss << nextId;
+    }
+    return ss.str();
+};
+
 
 // Find user by ID
 User* Library::findUserById(const string& userId) {
