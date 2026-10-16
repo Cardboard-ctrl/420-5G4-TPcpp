@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <filesystem>
+#include <ctime>
 #include "filemanager.h"
 
 using namespace std;
@@ -120,4 +121,20 @@ void FileManager::createBackup() {
     }
     
     cout << "Fichiers de sauvegarde créés.\n";
+}
+
+void FileManager::logAction(const string& action, const string& details) {
+    cout << "Working directory: " << filesystem::current_path() << endl;
+    ofstream logFile("data/journal.txt", ios::app);
+
+    if (!logFile.is_open()) {
+        cout << "Erreur : Impossible d'ouvrir/créer le fichier de journalisation.\n";
+        return;
+    } else {
+        time_t now = time(0);
+        tm* dateHeure = localtime(&now);
+
+        logFile << put_time(dateHeure, "%Y-%m-%d %H:%M:%S") << " - [" << action << "] " << details << "\n";
+    }
+    logFile.close();
 }
