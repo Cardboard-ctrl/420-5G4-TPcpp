@@ -12,6 +12,10 @@ FileManager::FileManager(const string& booksFile, const string& usersFile)
 
 // Save all library data
 bool FileManager::saveLibraryData(Library& library) {
+    if (booksFileName.empty() || usersFileName.empty()) {
+        cout << "Erreur : Noms de fichiers non spécifiés pour la sauvegarde.\n";
+        return false;
+    }
     return saveBooksToFile(library) && saveUsersToFile(library);
 }
 
@@ -124,7 +128,6 @@ void FileManager::createBackup() {
 }
 
 void FileManager::logAction(const string& action, const string& details) {
-    cout << "Working directory: " << filesystem::current_path() << endl;
     ofstream logFile("data/journal.txt", ios::app);
 
     if (!logFile.is_open()) {
